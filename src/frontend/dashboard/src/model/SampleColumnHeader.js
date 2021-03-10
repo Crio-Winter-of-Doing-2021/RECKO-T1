@@ -2,68 +2,68 @@ import Header from "../components/sidebar/Header";
 import { SelectColumnFilter } from "../components/table/utils/filters";
 
 const columns = [
+  // {
+  //   Header: () => null,
+  //   id: "expander", // 'id' is required
+  //   Cell: ({ row }) => (
+  //     <span {...row.getToggleRowExpandedProps()}>
+  //       {row.isExpanded ? "👇" : "👉"}
+  //     </span>
+  //   ),
+  // },
   {
-    Header: () => null,
-    id: "expander", // 'id' is required
-    Cell: ({ row }) => (
-      <span {...row.getToggleRowExpandedProps()}>
-        {row.isExpanded ? "👇" : "👉"}
-      </span>
-    ),
-  },
-  {
-    Header: "Title",
+    Header: "Account Id",
     accessor: "name.title",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: "equals",
   },
   {
-    Header: "First Name",
+    Header: "Account name",
     accessor: "name.first",
   },
   {
-    Header: "Last Name",
+    Header: "Amount",
     accessor: "name.last",
   },
   {
-    Header: "Email",
+    Header: "Date",
     accessor: "email",
   },
   {
-    Header: "City",
+    Header: "Type",
     accessor: "location.city",
   },
-  {
-    Header: "Hemisphere",
-    accessor: (values) => {
-      const { latitude, longitude } = values.location.coordinates;
-      const first = Number(latitude) > 0 ? "N" : "S";
-      const second = Number(longitude) > 0 ? "E" : "W";
-      return first + "/" + second;
-    },
-    disableSortBy: true,
-    Filter: SelectColumnFilter,
-    filter: "equals",
-    Cell: ({ cell }) => {
-      const { value } = cell;
+  // {
+  //   Header: "Hemisphere",
+  //   accessor: (values) => {
+  //     const { latitude, longitude } = values.location.coordinates;
+  //     const first = Number(latitude) > 0 ? "N" : "S";
+  //     const second = Number(longitude) > 0 ? "E" : "W";
+  //     return first + "/" + second;
+  //   },
+  //   disableSortBy: true,
+  //   Filter: SelectColumnFilter,
+  //   filter: "equals",
+  //   Cell: ({ cell }) => {
+  //     const { value } = cell;
 
-      const pickEmoji = (value) => {
-        let first = value[0]; // N or S
-        let second = value[2]; // E or W
-        const options = ["⇖", "⇗", "⇙", "⇘"];
-        let num = first === "N" ? 0 : 2;
-        num = second === "E" ? num + 1 : num;
-        return options[num];
-      };
+  //     const pickEmoji = (value) => {
+  //       let first = value[0]; // N or S
+  //       let second = value[2]; // E or W
+  //       const options = ["⇖", "⇗", "⇙", "⇘"];
+  //       let num = first === "N" ? 0 : 2;
+  //       num = second === "E" ? num + 1 : num;
+  //       return options[num];
+  //     };
 
-      return (
-        <div style={{ textAlign: "center", fontSize: 18 }}>
-          {pickEmoji(value)}
-        </div>
-      );
-    },
-  },
+  //     return (
+  //       <div style={{ textAlign: "center", fontSize: 18 }}>
+  //         {pickEmoji(value)}
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 // const columns = [
 //   {
