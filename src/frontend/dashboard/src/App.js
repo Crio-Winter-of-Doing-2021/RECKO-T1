@@ -7,6 +7,12 @@ import { Input } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import columns from "./model/SampleColumnHeader";
 import originalData from "./stubs/data";
+import StickyFooter from "./components/footer/StickyFooter";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { history } from "./utils/history";
+import SignIn from "./components/authentication/SignIn";
+import SignUp from "./components/authentication/SignUp";
+import Dashboard from "./components/dashboard/Dashboard";
 // import renderRowSubComponent from "./components/table/utils/renderRowSubComponent";
 
 export default class App extends React.Component {
@@ -48,7 +54,15 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
-        <Header />
+        <Router history={history}>
+          <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/login" component={SignIn} />
+            <Route path="/register" component={SignUp} />
+            <Redirect from="*" to="/login" />
+          </Switch>
+        </Router>
+        {/* <Header />
         <Container style={{ marginTop: 50 }}>
           <Input
             fluid
@@ -67,6 +81,7 @@ export default class App extends React.Component {
             // renderRowSubComponent={renderRowSubComponent}
           />
         </Container>
+        <StickyFooter /> */}
       </div>
     );
   }
