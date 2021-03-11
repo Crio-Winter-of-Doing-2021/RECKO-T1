@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -21,10 +21,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
-import Orders from "./Orders";
 
 import { Container as RContainer } from "reactstrap";
 import TableContainer from "../table/tableContainer";
+import { Input } from "semantic-ui-react";
 
 import columns from "../../model/SampleColumnHeader";
 import originalData from "../../stubs/data";
@@ -126,12 +126,39 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [searchInput, setSearchInput] = useState("");
+  const [data, setData] = useState(originalData);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const globalSearch = () => {
+    // let { searchInput } = this.state;
+    let filteredData = originalData.filter((value) => {
+      return (
+        value.name.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+        value.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
+        value.name.last
+          .toString()
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())
+      );
+    });
+    setData(filteredData);
+    //this.setState({ data: filteredData });
+  };
+
+  const handleChange = (event) => {
+    // useState({ searchInput: event.target.value }, () => {
+    //   globalSearch();
+    // });
+    setSearchInput(event.target.value);
+    globalSearch();
+  };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -206,20 +233,20 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <RContainer style={{ marginTop: 50 }}>
-                {/* <Input
+                <Input
                   fluid
                   icon="search"
                   placeholder="Search..."
                   size="massive"
                   name="searchInput"
                   value={searchInput || ""}
-                  onChange={this.handleChange}
-                /> */}
+                  onChange={handleChange}
+                />
                 <br />
                 <br />
                 <TableContainer
                   columns={columns}
-                  data={originalData}
+                  data={data}
                   // renderRowSubComponent={renderRowSubComponent}
                 />
               </RContainer>

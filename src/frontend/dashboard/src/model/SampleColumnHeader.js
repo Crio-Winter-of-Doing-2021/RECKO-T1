@@ -1,4 +1,3 @@
-import Header from "../components/sidebar/Header";
 import { SelectColumnFilter } from "../components/table/utils/filters";
 
 const columns = [
