@@ -8,23 +8,15 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-// import useStyles from "./style";
+import useStyles from "./style";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
 import Container from "@material-ui/core/Container";
 import clsx from "clsx";
+import Drawer from "@material-ui/core/Drawer";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: "100%",
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: "inline",
-  },
-}));
+import AppBar from "@material-ui/core/AppBar";
 
 export default function ServiceList() {
   const classes = useStyles();
@@ -68,7 +60,7 @@ export default function ServiceList() {
                     size="large"
                     className={classes.button}
                   >
-                    Save
+                    Authenticate
                   </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />
@@ -95,32 +87,16 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    className={classes.button}
+                  >
+                    Authenticate
+                  </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Cindy Baker"
-                      src="/static/images/avatar/3.jpg"
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Oui Oui"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          Sandra Adams
-                        </Typography>
-                        {" — Do you have Paris recommendations? Have you ever…"}
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
               </List>
             </Grid>
           </Grid>
