@@ -12,6 +12,7 @@ import {
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
 import Dashboard from "./components/dashboard/Dashboard";
+import ServiceList from "./components/ApiAuthenticationPage/ServiceList";
 
 import Layout from "./Layout/Layout";
 
@@ -24,6 +25,7 @@ export default class App extends React.Component {
             <Switch>
               {/* <Route path="/home" component={HomePage} /> */}
               <Route path="/table" component={Dashboard} />
+              <Route path="/services" component={ServiceList} />
               <Route path="/login" component={SignIn} />
               <Route path="/register" component={SignUp} />
               <Redirect from="*" to="/table" />

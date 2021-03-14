@@ -29,27 +29,29 @@ export const mainListItems = (
         </ListItemIcon>
         <ListItemText primary="Orders" />
       </ListItem>
-      <Link to="/login">
-        <ListItem button>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
 
-          <ListItemText primary="Customers" />
-        </ListItem>
-      </Link>
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+
+        <ListItemText primary="Customers" />
+      </ListItem>
+
       <ListItem button>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <LayersIcon />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
-      </ListItem>
+      <Link to="/services">
+        <ListItem button>
+          <ListItemIcon>
+            <LayersIcon />
+          </ListItemIcon>
+          <ListItemText primary="Integrations" />
+        </ListItem>
+      </Link>
     </nav>
   </div>
 );
