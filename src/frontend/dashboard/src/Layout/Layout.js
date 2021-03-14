@@ -71,7 +71,7 @@ export default function Layout(props) {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            Accounting Dashboard
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
