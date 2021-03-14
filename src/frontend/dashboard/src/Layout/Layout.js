@@ -18,6 +18,7 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { mainListItems, secondaryListItems } from "./listItems";
 
 function Copyright() {
@@ -77,6 +78,9 @@ export default function Layout(props) {
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
+          </IconButton>
+          <IconButton color="inherit">
+            <PowerSettingsNewIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

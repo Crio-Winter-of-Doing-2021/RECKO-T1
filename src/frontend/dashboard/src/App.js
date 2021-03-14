@@ -22,8 +22,8 @@ export default class App extends React.Component {
               <Route path="/table" component={Dashboard} />
               <Route path="/services" component={ServiceList} />
               <Route path="/report" component={Report} />
-              <Route path="/login" component={SignIn} />
-              <Route path="/register" component={SignUp} />
+              {/* <Route path="/login" component={SignIn} />
+              <Route path="/register" component={SignUp} /> */}
               <Redirect from="*" to="/table" />
             </Switch>
           </Layout>
