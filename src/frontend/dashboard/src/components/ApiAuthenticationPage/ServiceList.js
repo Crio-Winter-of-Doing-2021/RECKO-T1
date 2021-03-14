@@ -34,12 +34,12 @@ export default function ServiceList() {
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>
                     <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
+                      alt="Xero logo"
+                      src="http://assets.stickpng.com/images/58482945cef1014c0b5e49f8.png"
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary="Brunch this weekend?"
+                    primary="Xero all-in-one accounting software"
                     secondary={
                       <React.Fragment>
                         <Typography
@@ -48,31 +48,28 @@ export default function ServiceList() {
                           className={classes.inline}
                           color="textPrimary"
                         >
-                          Ali Connors
+                          Connect to your bank
                         </Typography>
-                        {" — I'll be in your neighborhood doing errands this…"}
+                        {
+                          " Set up bank feeds from your bank accounts so transactions are imported securely into Xero each business day."
+                        }
                       </React.Fragment>
                     }
                   />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    className={classes.button}
-                  >
-                    Authenticate
+                  <Button variant="outlined" color="primary" size="large">
+                    Add
                   </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>
                     <Avatar
-                      alt="Travis Howard"
-                      src="/static/images/avatar/2.jpg"
+                      alt="Quickbooks logo"
+                      src="https://quickbooks.intuit.com/cas/dam/IMAGE/A6OWCozsM/qb_thumb.png"
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary="Summer BBQ"
+                    primary="Intuit QuickBooks"
                     secondary={
                       <React.Fragment>
                         <Typography
@@ -81,19 +78,16 @@ export default function ServiceList() {
                           className={classes.inline}
                           color="textPrimary"
                         >
-                          to Scott, Alex, Jennifer
+                          Get a real-time view of your cash flow
                         </Typography>
-                        {" — Wish I could come, but I'm out of town this…"}
+                        {
+                          " Connect your bank account to automatically import and categorize transactions. "
+                        }
                       </React.Fragment>
                     }
                   />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    className={classes.button}
-                  >
-                    Authenticate
+                  <Button variant="outlined" color="primary" size="large">
+                    Add
                   </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />

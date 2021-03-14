@@ -1,13 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "semantic-ui-css/semantic.min.css";
-import {
-  Router,
-  Route,
-  Switch,
-  Redirect,
-  BrowserRouter,
-} from "react-router-dom";
+import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
