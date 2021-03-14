@@ -28,10 +28,14 @@ const columns = [
   {
     Header: "Date",
     accessor: "email",
+    Filter: SelectColumnFilter,
+    filter: "equals",
   },
   {
     Header: "Type",
     accessor: "location.city",
+    Filter: SelectColumnFilter,
+    filter: "equals",
   },
   // {
   //   Header: "Hemisphere",
