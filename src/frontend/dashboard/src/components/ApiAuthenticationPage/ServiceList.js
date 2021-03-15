@@ -17,10 +17,12 @@ import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 
 import AppBar from "@material-ui/core/AppBar";
+import apiService from "../../services/apiService";
+
+import * as constUtils from "./ServiceUtils";
 
 export default function ServiceList() {
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -56,7 +58,12 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  <Button variant="outlined" color="primary" size="large">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    onClick={(e) => constUtils.authenticateXero(e)}
+                  >
                     Add
                   </Button>
                 </ListItem>
@@ -86,7 +93,12 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  <Button variant="outlined" color="primary" size="large">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    onClick={(e) => constUtils.authenticateQuickbooks(e)}
+                  >
                     Add
                   </Button>
                 </ListItem>
