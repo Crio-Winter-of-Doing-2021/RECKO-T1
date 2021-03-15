@@ -48,16 +48,13 @@ export default {
       method: "GET",
       url: "/quickbooks/auth/request",
     }),
-  // postData: () =>
-  //   instance({
-  //     method: "POST",
-  //     url: "/api",
-  //     data: {
-  //       item1: "data1",
-  //       item2: "item2",
-  //     },
-  //     headers: {
-  //       "content-type": "application/json", // override instance defaults
-  //     },
-  //   }),
+  signUpUser: (signUpFormData) =>
+    instance({
+      method: "POST",
+      url: "/user/create/",
+      data: signUpFormData,
+      headers: {
+        "content-type": "application/x-www-form-urlencoded", // override instance defaults
+      },
+    }),
 };

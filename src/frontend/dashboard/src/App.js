@@ -45,7 +45,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <BrowserRouter>
-          {this.isAuthenticated ? <PrivateRoute /> : <PrivateRoute />}
+          {this.isAuthenticated ? <PrivateRoute /> : <DefaultRoute />}
         </BrowserRouter>
       </div>
     );
