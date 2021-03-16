@@ -14,31 +14,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as serviceUtils from "./ServiceUtils";
 import useStyles from "./styles";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../footer/Copyright";
 
 export default function SignIn() {
   const classes = useStyles();
 
   const handleSubmit = (e) => {
     //e.preventDefault();
+
     var bodyFormData = new FormData();
     bodyFormData.append("email", email);
     bodyFormData.append("password", password);
     serviceUtils.signInUser(e, bodyFormData);
-    console.log("Logging in..");
-    window.location.reload(false);
   };
 
   const [email, setEmail] = useState("");
