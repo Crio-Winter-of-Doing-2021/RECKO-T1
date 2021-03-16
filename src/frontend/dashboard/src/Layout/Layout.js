@@ -20,6 +20,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { mainListItems, secondaryListItems } from "./listItems";
+import Cookie from "js-cookie";
 
 function Copyright() {
   return (
@@ -43,6 +44,13 @@ export default function Layout(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleLogout = (e) => {
+    //e.preventDefault();
+    console.log("Logging out..");
+    Cookie.remove("token");
+  };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -79,7 +87,7 @@ export default function Layout(props) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={handleLogout}>
             <PowerSettingsNewIcon />
           </IconButton>
         </Toolbar>

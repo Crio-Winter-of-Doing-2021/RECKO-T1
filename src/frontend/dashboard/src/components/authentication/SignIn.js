@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as serviceUtils from "./ServiceUtils";
+import useStyles from "./styles";
 
 function Copyright() {
   return (
@@ -27,35 +28,16 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 export default function SignIn() {
   const classes = useStyles();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     var bodyFormData = new FormData();
     bodyFormData.append("email", email);
     bodyFormData.append("password", password);
     serviceUtils.signInUser(e, bodyFormData);
+    console.log("Logging in..");
   };
 
   const [email, setEmail] = useState("");
