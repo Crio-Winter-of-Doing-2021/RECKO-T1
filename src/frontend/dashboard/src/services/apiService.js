@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookie from "js-cookie";
 // import config from "./Constants";
 
 // export default class ApiService {
@@ -10,6 +11,7 @@ import axios from "axios";
 // }
 
 //TODO: replace URL with Constants.
+const token = Cookie.get("token") ? Cookie.get("token") : null;
 
 const instance = axios.create({
   baseURL: "https://recko-t1.herokuapp.com/api",
@@ -17,7 +19,7 @@ const instance = axios.create({
     // "content-type": "application/octet-stream",
     // "x-rapidapi-host": "example.com",
     // "x-rapidapi-key": process.env.RAPIDAPI_KEY,
-    Authorization: "Token 98490be4c0082385e66079f58857deb18861a583",
+    Authorization: "Token " + token, //98490be4c0082385e66079f58857deb18861a583
   },
 });
 
