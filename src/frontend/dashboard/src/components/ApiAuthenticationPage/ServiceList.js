@@ -37,7 +37,7 @@ export default function ServiceList() {
                   <ListItemAvatar>
                     <Avatar
                       alt="Xero logo"
-                      src="http://assets.stickpng.com/images/58482945cef1014c0b5e49f8.png"
+                      src="https://seeklogo.com/images/X/xero-logo-06E7A0FC15-seeklogo.com.png"
                     />
                   </ListItemAvatar>
                   <ListItemText
