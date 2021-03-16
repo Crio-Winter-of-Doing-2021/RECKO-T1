@@ -10,6 +10,9 @@ import ServiceList from "./components/ApiAuthenticationPage/ServiceList";
 
 import Layout from "./Layout/Layout";
 import Report from "./components/charts/Reports";
+import Cookie from "js-cookie";
+
+const token = Cookie.get("token") ? Cookie.get("token") : null;
 
 function PrivateRoute() {
   return (
@@ -38,14 +41,19 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: true,
+      isAuthenticated: false,
     };
+  }
+  componentDidMount() {
+    if (token != null) {
+      this.setState({ isAuthenticated: true });
+    }
   }
   render() {
     return (
       <div className="App">
         <BrowserRouter>
-          {this.isAuthenticated ? <PrivateRoute /> : <DefaultRoute />}
+          {this.state.isAuthenticated ? <PrivateRoute /> : <DefaultRoute />}
         </BrowserRouter>
       </div>
     );
