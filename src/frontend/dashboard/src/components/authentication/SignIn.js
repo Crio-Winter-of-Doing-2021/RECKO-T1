@@ -38,6 +38,7 @@ export default function SignIn() {
     bodyFormData.append("password", password);
     serviceUtils.signInUser(e, bodyFormData);
     console.log("Logging in..");
+    window.location.reload(false);
   };
 
   const [email, setEmail] = useState("");

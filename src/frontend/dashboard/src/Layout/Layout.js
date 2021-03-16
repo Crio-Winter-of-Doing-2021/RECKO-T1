@@ -47,8 +47,10 @@ export default function Layout(props) {
 
   const handleLogout = (e) => {
     //e.preventDefault();
+
     console.log("Logging out..");
     Cookie.remove("token");
+    window.location.reload(false);
   };
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
