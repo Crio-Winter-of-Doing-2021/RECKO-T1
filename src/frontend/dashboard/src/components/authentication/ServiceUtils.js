@@ -31,6 +31,7 @@ export const signInUser = (e, data) => {
       // Cookie.remove("token");
       // console.log(Cookie.get("token"));
       //window.location.assign("/login");
+      window.location.reload(false);
     })
     .catch((error) => {
       console.log(error);
