@@ -12,6 +12,11 @@ import Layout from "./Layout/Layout";
 import Report from "./components/charts/Reports";
 import Cookie from "js-cookie";
 
+import CookieConsent, {
+  Cookies,
+  getCookieConsentValue,
+} from "react-cookie-consent";
+
 const token = Cookie.get("token") ? Cookie.get("token") : null;
 
 function PrivateRoute() {
@@ -55,6 +60,16 @@ export default class App extends React.Component {
         <BrowserRouter>
           {this.state.isAuthenticated ? <PrivateRoute /> : <DefaultRoute />}
         </BrowserRouter>
+        <CookieConsent
+          location="bottom"
+          buttonText="I understand"
+          cookieName="acceptCookiesCookie"
+          style={{ background: "#2B373B" }}
+          buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+          expires={150}
+        >
+          This website uses cookies to enhance the user experience.
+        </CookieConsent>
       </div>
     );
   }
