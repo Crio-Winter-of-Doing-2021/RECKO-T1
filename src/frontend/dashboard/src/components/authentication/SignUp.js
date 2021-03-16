@@ -60,10 +60,10 @@ export default function SignUp() {
     serviceUtils.signUpUser(e, bodyFormData);
   };
 
-  const [fname, setfName] = useState();
-  const [lname, setlName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [fname, setfName] = useState("");
+  const [lname, setlName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <Container component="main" maxWidth="xs">
@@ -107,7 +107,7 @@ export default function SignUp() {
                 name="lastName"
                 autoComplete="lname"
                 value={lname}
-                onChange={(e) => setfName(e.target.value)}
+                onChange={(e) => setlName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

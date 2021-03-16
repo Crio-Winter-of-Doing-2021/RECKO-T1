@@ -57,4 +57,13 @@ export default {
         "content-type": "application/x-www-form-urlencoded", // override instance defaults
       },
     }),
+  signInUser: (signInFormData) =>
+    instance({
+      method: "POST",
+      url: "/user/token/",
+      data: signInFormData,
+      headers: {
+        "content-type": "application/x-www-form-urlencoded", // override instance defaults
+      },
+    }),
 };
