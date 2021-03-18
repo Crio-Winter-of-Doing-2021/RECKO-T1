@@ -20,14 +20,14 @@ export default function Dashboard() {
 
   const globalSearch = () => {
     let filteredData = originalData.filter((value) => {
-      return (
-        value.name.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-        value.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
-        value.name.last
-          .toString()
-          .toLowerCase()
-          .includes(searchInput.toLowerCase())
-      );
+      return value.account_name
+        .toLowerCase()
+        .includes(searchInput.toLowerCase()); //||
+      // value.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
+      // value.name.last
+      // .toString()
+      // .toLowerCase()
+      // .includes(searchInput.toLowerCase())
     });
     setData(filteredData);
   };
