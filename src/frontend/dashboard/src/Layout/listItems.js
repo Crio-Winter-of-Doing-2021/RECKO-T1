@@ -23,20 +23,6 @@ export const mainListItems = (
           <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
-      {/* <ListItem button>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Orders" />
-      </ListItem>
-
-      <ListItem button>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-
-        <ListItemText primary="Customers" />
-      </ListItem> */}
 
       <Link to="/services">
         <ListItem button>
@@ -74,11 +60,5 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
-    {/* <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem> */}
   </div>
 );

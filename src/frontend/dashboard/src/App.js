@@ -12,10 +12,7 @@ import Layout from "./Layout/Layout";
 import Report from "./components/charts/Reports";
 import Cookie from "js-cookie";
 
-import CookieConsent, {
-  Cookies,
-  getCookieConsentValue,
-} from "react-cookie-consent";
+import CookieConsent from "react-cookie-consent";
 
 const token = Cookie.get("token") ? Cookie.get("token") : null;
 

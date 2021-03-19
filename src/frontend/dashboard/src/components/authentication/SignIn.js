@@ -15,9 +15,13 @@ import Container from "@material-ui/core/Container";
 import * as serviceUtils from "./ServiceUtils";
 import useStyles from "./styles";
 import Copyright from "../footer/Copyright";
+import LoadingIndicator from "../loading/LoadingIndicator";
+import { usePromiseTracker } from "react-promise-tracker";
+import { CircularProgress } from "@material-ui/core";
 
 export default function SignIn() {
   const classes = useStyles();
+  const { promiseInProgress } = usePromiseTracker();
 
   const handleSubmit = (e) => {
     //e.preventDefault();
@@ -85,11 +89,10 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            {promiseInProgress && <CircularProgress size={24} />}
+            {!promiseInProgress && "Sign In"}
           </Button>
-          {/* <Link href="dashboard" className="btn btn-primary">
-            Sign In
-          </Link> */}
+          <LoadingIndicator />
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

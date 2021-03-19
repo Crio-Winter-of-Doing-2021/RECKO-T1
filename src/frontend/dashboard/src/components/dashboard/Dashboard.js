@@ -6,10 +6,10 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
 import { Container as RContainer } from "reactstrap";
-import TableContainer from "../table/tableContainer";
+import TableContainer from "./table/tableContainer";
 import { Input } from "semantic-ui-react";
 
-import columns from "../../model/SampleColumnHeader";
+import columns from "./model/TableColumnHeader";
 import originalData from "../../stubs/data";
 
 export default function Dashboard() {

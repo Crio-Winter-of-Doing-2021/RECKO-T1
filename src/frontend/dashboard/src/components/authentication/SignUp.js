@@ -10,15 +10,19 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+
 import Container from "@material-ui/core/Container";
 import useStyles from "./styles";
 import * as serviceUtils from "./ServiceUtils";
 import Copyright from "../footer/Copyright";
+import LoadingIndicator from "../loading/LoadingIndicator";
+
+import { usePromiseTracker } from "react-promise-tracker";
+import { CircularProgress } from "@material-ui/core";
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const { promiseInProgress } = usePromiseTracker();
   const handleSubmit = (e) => {
     e.preventDefault();
     var bodyFormData = new FormData();
@@ -119,8 +123,10 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            {promiseInProgress && <CircularProgress size={24} />}
+            {!promiseInProgress && "Sign Up"}
           </Button>
+          <LoadingIndicator />
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="login" variant="body2">

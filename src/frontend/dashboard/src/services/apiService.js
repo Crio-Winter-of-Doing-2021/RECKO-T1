@@ -65,7 +65,7 @@ export default {
       url: "/user/token/",
       data: signInFormData,
       headers: {
-        "content-type": "application/x-www-form-urlencoded", // override instance defaults
+        "content-type": "application/x-www-form-urlencoded",
       },
     }),
 };
