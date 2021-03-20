@@ -50,6 +50,12 @@ export default {
       method: "GET",
       url: "/quickbooks/auth/request",
     }),
+  getDashboardData: () =>
+    instance({
+      method: "GET",
+      url:
+        "https://recko-t1.herokuapp.com/api/account/transactions?page=1&per_page=30&order_by=type&order_direction=desc",
+    }),
   signUpUser: (signUpFormData) =>
     instance({
       method: "POST",

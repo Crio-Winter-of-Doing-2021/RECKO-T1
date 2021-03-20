@@ -11,11 +11,28 @@ import { Input } from "semantic-ui-react";
 import columns from "./model/TableColumnHeader";
 import originalData from "../../stubs/data";
 
+import { useEffect } from "react";
+import apiService from "../../services/apiService";
+import { trackPromise } from "react-promise-tracker";
+
 export default function Dashboard() {
   const classes = useStyles();
 
   const [searchInput, setSearchInput] = useState("");
   const [data, setData] = useState(originalData);
+
+  useEffect(() => {
+    trackPromise(
+      apiService
+        .getDashboardData()
+        .then((response) => {
+          setData(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    );
+  }, []);
 
   const globalSearch = () => {
     let filteredData = originalData.filter((value) => {

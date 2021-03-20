@@ -10,11 +10,14 @@ import Button from "@material-ui/core/Button";
 import useStyles from "./style";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-
+import { usePromiseTracker } from "react-promise-tracker";
+import { CircularProgress } from "@material-ui/core";
 import * as constUtils from "./ServiceUtils";
+import ErrorBox from "../error/ErrorBox";
 
 export default function ServiceList() {
   const classes = useStyles();
+  const { promiseInProgress } = usePromiseTracker();
 
   return (
     <div className={classes.root}>
@@ -24,6 +27,7 @@ export default function ServiceList() {
           <Grid container spacing={3}>
             {/* Recent Orders */}
             <Grid item xs={12}>
+              {/* <ErrorBox /> */}
               <List className={classes.root}>
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>
@@ -56,7 +60,8 @@ export default function ServiceList() {
                     size="large"
                     onClick={(e) => constUtils.authenticateXero(e)}
                   >
-                    Add
+                    {promiseInProgress && <CircularProgress size={24} />}
+                    {!promiseInProgress && "Add"}
                   </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />
@@ -91,7 +96,8 @@ export default function ServiceList() {
                     size="large"
                     onClick={(e) => constUtils.authenticateQuickbooks(e)}
                   >
-                    Add
+                    {promiseInProgress && <CircularProgress size={24} />}
+                    {!promiseInProgress && "Add"}
                   </Button>
                 </ListItem>
                 <Divider variant="inset" component="li" />
