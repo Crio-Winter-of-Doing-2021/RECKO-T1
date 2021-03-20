@@ -70,6 +70,8 @@ class Account(models.Model):
     realm_id = models.TextField(blank=True, null=True)
     error_desc = models.TextField(blank=True, null=True)
     error_at = models.DateTimeField(blank=True, null=True)
+    quickbooks_last_sync_date = models.DateField(blank=True, null=True)
+    xero_last_journal_number = models.IntegerField(default=0)
     token_type = models.CharField(
         max_length=2,
         choices=TOKEN_TYPE_CHOICES,
@@ -83,3 +85,29 @@ class Account(models.Model):
         unique_together = ('integration', 'user',)
     def __str__(self):
         return self.user_id
+    def __unicode__(self):
+        return self.user_id
+
+class Transactions(models.Model):
+
+    DEBIT = 'DE'
+    CREDIT = 'CR'
+    TYPE_CHOICES = [
+        (DEBIT, 'Debit'),
+        (CREDIT, 'Credit'),
+    ]
+
+    account_name = models.CharField(max_length=255)
+    account_id = models.IntegerField()
+    amount = models.FloatField()
+    date = models.DateField(auto_now=False, auto_now_add=False)
+    type = models.CharField(
+                max_length=2,
+                choices=TYPE_CHOICES,
+                default=None,
+            )
+    created_at = models.DateTimeField(auto_now_add=True)
+    core_account = models.ForeignKey(
+                    Account,
+                    on_delete=models.CASCADE
+                )

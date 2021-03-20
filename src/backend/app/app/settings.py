@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y%$21joa+_-jdn9ta62&m=1dhxve=6jy&nyn5&(2gdb7%t4qn8'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'y%1joa+_-jdn9ta62&m=1dhxve=6jy&nyn5&(2gdb7%t4qn8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = os.environ.get('SECRET_KEY', False)
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,12 +45,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'core',
-    'user'
+    'account',
+    'quickbooks',
+    'xero',
+    'user',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,19 +88,33 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.environ.get('DATABASE_URL')
+#     )
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '127.0.0.1',
-        'NAME': 'recko',
-        'USER': 'postgres',
-        'PASSWORD': 'jayd'
-        # 'HOST': os.environ.get('DB_HOST'),
-        # 'NAME': os.environ.get('DB_NAME'),
-        # 'USER': os.environ.get('DB_USER'),
-        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
-    }
+    'default': dj_database_url.config(
+        default='postgres://xomwgjyzukeigm:f819a810ae96857b8579da5065eb31f45d66f5748072b629e0b357d7f084a77c@ec2-18-214-208-89.compute-1.amazonaws.com:5432/d37d78rkodqr9h'
+    )
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': '',
+#         'NAME': '',
+#         'USER': '',
+#         'PASSWORD': ''
+#         # 'HOST': '127.0.0.1',
+#         # 'NAME': 'recko',
+#         # 'USER': 'postgres',
+#         # 'PASSWORD': 'jayd'
+#         # 'HOST': os.environ.get('DB_HOST'),
+#         # 'NAME': os.environ.get('DB_NAME'),
+#         # 'USER': os.environ.get('DB_USER'),
+#         # 'PASSWORD': os.environ.get('DB_PASSWORD'),
+#     }
+# }
 
 
 # Password validation
@@ -128,11 +153,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/static/'
-MEDIA_URL = '/static/media/'
 
-STATIC_ROOT = '/vol/web/static'
-MEDIA_ROOT = '/vol/web/media'
+STATIC_URL = '/static/'
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'templates'),
+    # Add to this list all the locations containing your static files 
+)
 
 AUTH_USER_MODEL = 'core.User'
 
@@ -143,4 +172,8 @@ SWAGGER_SETTINGS = {
 
 APPEND_SLASH = False
 
-APPLICATION_URL = 'http://localhost:8000'
+APPLICATION_URL = 'https://recko-t1.herokuapp.com'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

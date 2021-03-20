@@ -11,5 +11,6 @@ app_name = 'quickbooks'
 urlpatterns = [
     path('', include(router.urls)),
     path('quickbooks/auth/response', views.QuickbooksAuthResponseView.as_view(), name="quickbooks_auth_response"),
-    path('quickbooks/auth/request', views.QuickbooksAuthRequestView.as_view(), name="quickbooks_auth_request")
+    path('quickbooks/auth/request', views.QuickbooksAuthRequestView.as_view(), name="quickbooks_auth_request"),
+    path('quickbooks/sync/data', views.QuickbooksAuthSyncDataView.as_view(), name="quickbooks_sync_data"),
 ]
