@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import clsx from "clsx";
 import useStyles from "./style";
 
 import Container from "@material-ui/core/Container";
@@ -22,12 +21,7 @@ export default function Dashboard() {
     let filteredData = originalData.filter((value) => {
       return value.account_name
         .toLowerCase()
-        .includes(searchInput.toLowerCase()); //||
-      // value.name.first.toLowerCase().includes(searchInput.toLowerCase()) ||
-      // value.name.last
-      // .toString()
-      // .toLowerCase()
-      // .includes(searchInput.toLowerCase())
+        .includes(searchInput.toLowerCase());
     });
     setData(filteredData);
   };
@@ -36,8 +30,6 @@ export default function Dashboard() {
     setSearchInput(event.target.value);
     globalSearch();
   };
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
