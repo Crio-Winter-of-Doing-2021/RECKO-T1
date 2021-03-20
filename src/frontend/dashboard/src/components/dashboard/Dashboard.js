@@ -31,10 +31,13 @@ export default function Dashboard() {
         .getDashboardData()
         .then((response) => {
           setData(response.data.data);
+          if (response.data.data.length == 0) {
+            setError("No data available. Please check service integrations.");
+          }
         })
         .catch((error) => {
           console.log(error);
-          setError("Error fetching data. Please check integrations page.");
+          setError("Error fetching data. Try again.");
         })
     );
   }, []);
@@ -61,9 +64,9 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <RContainer style={{ marginTop: 50 }}>
+                {error != "" && <ErrorBox message={error} />}
                 <br />
                 <LoadingIndicator />
-                {error != "" && <ErrorBox message={error} />}
                 <Input
                   fluid
                   icon="search"

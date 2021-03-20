@@ -50,6 +50,16 @@ export default {
       method: "GET",
       url: "/quickbooks/auth/request",
     }),
+  getQuickbooksAuthStatus: () =>
+    instance({
+      method: "GET",
+      url: "/quickbooks",
+    }),
+  getXeroAuthStatus: () =>
+    instance({
+      method: "GET",
+      url: "/xero",
+    }),
   getDashboardData: () =>
     instance({
       method: "GET",

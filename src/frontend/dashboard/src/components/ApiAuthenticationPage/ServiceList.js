@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -13,11 +13,43 @@ import Container from "@material-ui/core/Container";
 import { usePromiseTracker } from "react-promise-tracker";
 import { CircularProgress } from "@material-ui/core";
 import * as constUtils from "./ServiceUtils";
-import ErrorBox from "../error/ErrorBox";
+
+import { useEffect } from "react";
+import apiService from "../../services/apiService";
+import { trackPromise } from "react-promise-tracker";
 
 export default function ServiceList() {
   const classes = useStyles();
   const { promiseInProgress } = usePromiseTracker();
+
+  const [isXero, setXeroAuth] = useState(false);
+  const [isQuickbooks, setQuickbooksAuth] = useState(false);
+
+  useEffect(() => {
+    trackPromise(
+      apiService
+        .getXeroAuthStatus()
+        .then((response) => {
+          if (response.data[0].is_authenticated == true) {
+            setXeroAuth(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        }),
+
+      apiService
+        .getQuickbooksAuthStatus()
+        .then((response) => {
+          if (response.data[0].is_authenticated == true) {
+            setQuickbooksAuth(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    );
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -54,15 +86,22 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    onClick={(e) => constUtils.authenticateXero(e)}
-                  >
-                    {promiseInProgress && <CircularProgress size={24} />}
-                    {!promiseInProgress && "Add"}
-                  </Button>
+                  {!isXero && (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="large"
+                      onClick={(e) => constUtils.authenticateXero(e)}
+                    >
+                      {promiseInProgress && <CircularProgress size={24} />}
+                      {!promiseInProgress && "Add"}
+                    </Button>
+                  )}
+                  {isXero && (
+                    <Button variant="outlined" disabled>
+                      Added
+                    </Button>
+                  )}
                 </ListItem>
                 <Divider variant="inset" component="li" />
                 <ListItem alignItems="flex-start">
@@ -90,15 +129,22 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    onClick={(e) => constUtils.authenticateQuickbooks(e)}
-                  >
-                    {promiseInProgress && <CircularProgress size={24} />}
-                    {!promiseInProgress && "Add"}
-                  </Button>
+                  {!isQuickbooks && (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="large"
+                      onClick={(e) => constUtils.authenticateQuickbooks(e)}
+                    >
+                      {promiseInProgress && <CircularProgress size={24} />}
+                      {!promiseInProgress && "Add"}
+                    </Button>
+                  )}
+                  {isQuickbooks && (
+                    <Button variant="outlined" disabled>
+                      Added
+                    </Button>
+                  )}
                 </ListItem>
                 <Divider variant="inset" component="li" />
               </List>
