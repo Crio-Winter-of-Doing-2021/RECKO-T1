@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ErrorBox() {
+export default function ErrorBox(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -38,7 +38,10 @@ export default function ErrorBox() {
             </IconButton>
           }
         >
-          There was an error performing the operation. Try again.
+          {props.message != ""
+            ? props.message
+            : "There was an error performing the operation. Try again."}
+          {/* There was an error performing the operation. Try again. */}
         </Alert>
       </Collapse>
     </div>

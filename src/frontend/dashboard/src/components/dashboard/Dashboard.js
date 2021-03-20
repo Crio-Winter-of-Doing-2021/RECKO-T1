@@ -14,12 +14,16 @@ import originalData from "../../stubs/data";
 import { useEffect } from "react";
 import apiService from "../../services/apiService";
 import { trackPromise } from "react-promise-tracker";
+import LoadingIndicator from "../loading/LoadingIndicator";
+import ErrorBox from "../error/ErrorBox";
 
 export default function Dashboard() {
   const classes = useStyles();
 
   const [searchInput, setSearchInput] = useState("");
-  const [data, setData] = useState(originalData);
+  const [data, setData] = useState([]);
+
+  const [error, setError] = useState("");
 
   useEffect(() => {
     trackPromise(
@@ -30,6 +34,7 @@ export default function Dashboard() {
         })
         .catch((error) => {
           console.log(error);
+          setError("Error fetching data. Please check integrations page.");
         })
     );
   }, []);
@@ -57,6 +62,8 @@ export default function Dashboard() {
             <Grid item xs={12}>
               <RContainer style={{ marginTop: 50 }}>
                 <br />
+                <LoadingIndicator />
+                {error != "" && <ErrorBox message={error} />}
                 <Input
                   fluid
                   icon="search"
