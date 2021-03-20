@@ -22,10 +22,12 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Cookie from "js-cookie";
 import Copyright from "../components/footer/Copyright";
 import { StylesProvider } from "@material-ui/core/styles";
+import NotifyMe from "react-notification-timeline";
 
 export default function Layout(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [notificationData, setNotification] = React.useState([]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -71,11 +73,24 @@ export default function Layout(props) {
             >
               Accounting Dashboard
             </Typography>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+              
+            </IconButton> */}
+
+            <NotifyMe
+              data={notificationData}
+              storageKey="notific_key"
+              notific_key="timestamp"
+              notific_value="update"
+              // heading="Notification Alerts"
+              sortedByKey={false}
+              showDate={true}
+              size={24}
+              // color="yellow"
+            />
             <IconButton color="inherit" onClick={handleLogout}>
               <PowerSettingsNewIcon />
             </IconButton>

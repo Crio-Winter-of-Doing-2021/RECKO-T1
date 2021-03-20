@@ -17,6 +17,7 @@
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
     "react-loader-spinner": "^4.0.0",
+    "react-notification-timeline": "0.0.9",
     "react-pro-sidebar": "^0.6.0",
     "react-promise-tracker": "^2.1.0",
     "react-router": "^5.2.0",
