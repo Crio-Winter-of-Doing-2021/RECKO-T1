@@ -14,42 +14,9 @@ import { usePromiseTracker } from "react-promise-tracker";
 import { CircularProgress } from "@material-ui/core";
 import * as constUtils from "./ServiceUtils";
 
-import { useEffect } from "react";
-import apiService from "../../services/apiService";
-import { trackPromise } from "react-promise-tracker";
-
-export default function ServiceList() {
+export default function ServiceList(props) {
   const classes = useStyles();
   const { promiseInProgress } = usePromiseTracker();
-
-  const [isXero, setXeroAuth] = useState(false);
-  const [isQuickbooks, setQuickbooksAuth] = useState(false);
-
-  useEffect(() => {
-    trackPromise(
-      apiService
-        .getXeroAuthStatus()
-        .then((response) => {
-          if (response.data[0].is_authenticated == true) {
-            setXeroAuth(true);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        }),
-
-      apiService
-        .getQuickbooksAuthStatus()
-        .then((response) => {
-          if (response.data[0].is_authenticated == true) {
-            setQuickbooksAuth(true);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    );
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -86,7 +53,7 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  {!isXero && (
+                  {!props.isXero && (
                     <Button
                       variant="outlined"
                       color="primary"
@@ -97,7 +64,7 @@ export default function ServiceList() {
                       {!promiseInProgress && "Add"}
                     </Button>
                   )}
-                  {isXero && (
+                  {props.isXero && (
                     <Button variant="outlined" disabled>
                       Added
                     </Button>
@@ -129,7 +96,7 @@ export default function ServiceList() {
                       </React.Fragment>
                     }
                   />
-                  {!isQuickbooks && (
+                  {!props.isQuickbooks && (
                     <Button
                       variant="outlined"
                       color="primary"
@@ -140,7 +107,7 @@ export default function ServiceList() {
                       {!promiseInProgress && "Add"}
                     </Button>
                   )}
-                  {isQuickbooks && (
+                  {props.isQuickbooks && (
                     <Button variant="outlined" disabled>
                       Added
                     </Button>

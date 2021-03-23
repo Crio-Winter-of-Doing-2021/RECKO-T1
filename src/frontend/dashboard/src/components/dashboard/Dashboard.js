@@ -32,7 +32,7 @@ export default function Dashboard() {
         .then((response) => {
           setData(response.data.data);
           if (response.data.data.length == 0) {
-            setError("No data available. Please check service integrations.");
+            setError("No data available.");
           }
         })
         .catch((error) => {

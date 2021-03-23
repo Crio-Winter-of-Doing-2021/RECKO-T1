@@ -19,12 +19,12 @@ const token = Cookie.get("token") ? Cookie.get("token") : null;
 function PrivateRoute() {
   return (
     <Layout>
-      <Switch>
+      {/* <Switch>
         <Route path="/table" component={Dashboard} />
         <Route path="/services" component={ServiceList} />
         <Route path="/report" component={Report} />
         <Redirect from="*" to="/table" />
-      </Switch>
+      </Switch> */}
     </Layout>
   );
 }
