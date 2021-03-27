@@ -1,5 +1,4 @@
-import Header from "../components/sidebar/Header";
-import { SelectColumnFilter } from "../components/table/utils/filters";
+import { SelectColumnFilter } from "../table/utils/filters";
 
 const columns = [
   // {
@@ -13,26 +12,31 @@ const columns = [
   // },
   {
     Header: "Account Id",
-    accessor: "name.title",
-    disableSortBy: true,
+    accessor: "id",
+    // disableSortBy: true,
+    // Filter: SelectColumnFilter,
+    // filter: "equals",
+  },
+  {
+    Header: "Account name",
+    accessor: "account_name",
+  },
+  {
+    Header: "Amount",
+    accessor: "amount",
+  },
+  {
+    Header: "Date",
+    accessor: "date",
     Filter: SelectColumnFilter,
     filter: "equals",
   },
   {
-    Header: "Account name",
-    accessor: "name.first",
-  },
-  {
-    Header: "Amount",
-    accessor: "name.last",
-  },
-  {
-    Header: "Date",
-    accessor: "email",
-  },
-  {
     Header: "Type",
-    accessor: "location.city",
+    accessor: "type",
+    Filter: SelectColumnFilter,
+    filter: "equals",
+    disableSortBy: true,
   },
   // {
   //   Header: "Hemisphere",
@@ -65,28 +69,5 @@ const columns = [
   //   },
   // },
 ];
-// const columns = [
-//   {
-//     Header: "First Name",
-//     accessor: "firstName",
-//     sortable: false,
-//     show: true,
-//     displayValue: " First Name",
-//   },
-//   {
-//     Header: "Status",
-//     accessor: "status",
-//     sortable: false,
-//     show: true,
-//     displayValue: "Status ",
-//   },
-//   {
-//     Header: "Visits",
-//     accessor: "visits",
-//     sortable: false,
-//     show: true,
-//     displayValue: " Visits ",
-//   },
-// ];
 
 export default columns;

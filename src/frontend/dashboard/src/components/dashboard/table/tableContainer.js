@@ -131,11 +131,11 @@ const TableContainer = ({ columns, data, renderRowSubComponent }) => {
         </Col>
         <Col md={2}>
           <CustomInput
+            // id="custom-select-table"
             type="select"
             value={pageSize}
             onChange={onChangeInSelect}
           >
-            >
             {[10, 20, 30, 40, 50].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Show {pageSize}
