@@ -64,7 +64,27 @@ export default {
     instance({
       method: "GET",
       url:
-        "https://recko-t1.herokuapp.com/api/account/transactions?page=1&per_page=30&order_by=type&order_direction=desc",
+        "https://recko-t1.herokuapp.com/api/account/transactions?page=1&per_page=1000&order_by=type&order_direction=desc",
+    }),
+  getLineGraphData: () =>
+    instance({
+      method: "GET",
+      url: "https://recko-t1.herokuapp.com/api/account/charts?chart_type=1",
+    }),
+  getTotalData: () =>
+    instance({
+      method: "GET",
+      url: "https://recko-t1.herokuapp.com/api/account/charts?chart_type=2",
+    }),
+  getPieChartData: () =>
+    instance({
+      method: "GET",
+      url: "https://recko-t1.herokuapp.com/api/account/charts?chart_type=3",
+    }),
+  getBarGraphData: () =>
+    instance({
+      method: "GET",
+      url: "https://recko-t1.herokuapp.com/api/account/charts?chart_type=4",
     }),
   signUpUser: (signUpFormData) =>
     instance({

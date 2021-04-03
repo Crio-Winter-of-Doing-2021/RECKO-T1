@@ -18,9 +18,16 @@ const columns = [
     // filter: "equals",
   },
   {
+    Header: "Service name",
+    accessor: "integration_name",
+    Filter: SelectColumnFilter,
+    filter: "equals",
+  },
+  {
     Header: "Account name",
     accessor: "account_name",
   },
+
   {
     Header: "Amount",
     accessor: "amount",
