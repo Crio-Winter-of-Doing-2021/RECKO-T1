@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('quickbooks.urls')),
     path('api/', include('xero.urls')),
+    path('api/', include('account.urls')),
     user_url_pattern
 ]

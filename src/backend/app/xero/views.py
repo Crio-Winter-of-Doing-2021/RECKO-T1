@@ -1,17 +1,25 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import views
 
 from django.conf import settings
+from datetime import datetime
 
 import urllib, requests, base64
 
-from core.models import Account, Integration
+from core.models import Account, Integration, Transactions
 from xero import serializers
 
-class XeroViewSet(viewsets.ModelViewSet):
+xero_base_url = 'https://login.xero.com/identity/connect/authorize?'
+xero_token_url = "https://identity.xero.com/connect/token"
+xero_connection_url = "https://api.xero.com/connections"
+xero_journal_url = "https://api.xero.com/api.xro/2.0/Journals"
+default_scopes = 'accounting.journals.read'
+integration_id = 1
+
+class XeroViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """ Manage xero account in database """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -20,25 +28,7 @@ class XeroViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Return objects for the current authenticated users only and for xero integration only"""
-        return self.queryset.filter(user=self.request.user, integration=1)
-    
-    def create(self, request, *args, **kwargs):
-            # Override create method to prevent duplicate object creation
-            serializer = serializers.XeroSerializer(data=self.request.data)
-            serializer.is_valid(raise_exception=True)
-
-            user = self.request.user
-            integration = 1
-
-            # Default scope
-            scopes = 'accounting.journals.read'
-
-            if Account.objects.filter(user=user, integration=integration).exists():
-                return Response(status=status.HTTP_409_CONFLICT)
-                
-            xero = serializer.save(user=self.request.user, integration=Integration.objects.get(pk=1), scopes=scopes)
-            response_serialized_xero = serializers.XeroSerializer(xero).data
-            return Response(response_serialized_xero, status=status.HTTP_201_CREATED)
+        return self.queryset.filter(user=self.request.user, integration=integration_id)
 
 class XeroAuthResponseView(views.APIView):
     """Custom viewset for xero auth response"""
@@ -56,13 +46,12 @@ class XeroAuthResponseView(views.APIView):
         Account.objects.filter(pk=state).update(authorization_code=authorization_code)
 
         xero_account = Account.objects.filter(pk=state).first()
-        xero_integration = Integration.objects.filter(id=1).first()
+        xero_integration = Integration.objects.filter(id=integration_id).first()
 
         if not xero_account:
             return Response('No matching associated state found.', status=status.HTTP_400_BAD_REQUEST)
 
         # Generating token from the code
-        xero_base_url = 'https://identity.xero.com/connect/token'
         authorization = base64.b64encode((xero_integration.client_id+':'+xero_integration.client_secret).encode('utf-8'))
         redirect_uri = settings.APPLICATION_URL+'/api/xero/auth/response'
 
@@ -73,7 +62,7 @@ class XeroAuthResponseView(views.APIView):
         header = {"Content-type": "application/x-www-form-urlencoded",
                     "authorization": "Basic "+str(authorization, "utf-8")}
 
-        response = requests.post(xero_base_url, data=payload, headers=header)
+        response = requests.post(xero_token_url, data=payload, headers=header)
         if response.status_code != 200:
             return Response(response.json(), response.status_code)    
         response = response.json()
@@ -93,13 +82,13 @@ class XeroAuthRequestView(views.APIView):
     def get(self, request, *args, **kwargs):
         """Custome GET Endpoint to request the authorization URL"""
         user = self.request.user
-        xero_account = Account.objects.filter(user=user, integration=1).first()
-        xero_integration = Integration.objects.filter(id=1).first()
 
-        if not xero_account:
-            return Response("No matching xero account available", status=status.HTTP_404_NOT_FOUND)
+        # Creating xero account in recko app, if it's exists ignore it
+        xero_account_object = Account(user=self.request.user, integration = Integration.objects.get(pk=integration_id), scopes=default_scopes)
+        Account.objects.bulk_create([xero_account_object], ignore_conflicts=True)
 
-        xero_base_url = 'https://login.xero.com/identity/connect/authorize?'
+        xero_account = Account.objects.filter(user=user, integration=integration_id).first()
+        xero_integration = Integration.objects.filter(id=integration_id).first()
 
         redirect_uri = settings.APPLICATION_URL+'/api/xero/auth/response'
 
@@ -108,3 +97,89 @@ class XeroAuthRequestView(views.APIView):
 
         # return Response(redirect_uri)
         return Response(xero_base_url+urllib.parse.urlencode(xero_url_params))
+    
+
+class XeroAuthSyncDataView(views.APIView):
+    """Custom viewset for xero data sync"""
+
+    permission_classes = []
+    
+    def get(self, request, *args, **kwargs):
+        """Custome GET Endpoint to sync xero data"""
+        accounts = Account.objects.filter(integration=integration_id).filter(is_authenticated=True)
+        xero_integration = Integration.objects.filter(id=integration_id).first()
+        authorization = base64.b64encode((xero_integration.client_id+':'+xero_integration.client_secret).encode('utf-8'))
+
+        for account in accounts:
+            # Generating access token from refresh token
+            # Making post request to xero to generate the access token
+            payload = {"grant_type": "refresh_token", 
+                        "refresh_token": account.refresh_token}
+
+            header = {"Content-type": "application/x-www-form-urlencoded",
+                        "authorization": "Basic "+str(authorization, "utf-8")}
+
+            response = requests.post(xero_token_url, data=payload, headers=header)
+
+            # If error occured while generating access token updating is_authenticated as False in Account
+            if response.status_code != 200:
+                error = 'status_code='+str(response.status_code)
+                error_at = datetime.now()
+                Account.objects.filter(pk=account.id).update(error_desc=error, error_at=error_at, is_authenticated=False)
+            else:  
+                response = response.json()
+                access_token = response['access_token']
+                expires_in = response['expires_in']
+                refresh_token = response['refresh_token']
+
+                Account.objects.filter(pk=account.id).update(access_token=access_token, expires_in=expires_in, 
+                                                refresh_token=refresh_token, is_authenticated=True)
+            
+                # Getting xero tenants
+                header = {"Content-type": "application/json", "Accept": "application/json",
+                    "Authorization": "Bearer "+str(access_token)}
+                response = requests.get(xero_connection_url, data={}, headers=header)
+                if response.status_code != 200:
+                    continue
+                xero_tenants = response.json()
+
+                for xero_tenant in xero_tenants:
+                    xero_tenant_id = xero_tenant['tenantId']
+
+                    # Getting xero Journal data for each tenant
+                    header = {"Authorization": "Bearer "+str(access_token), "Xero-Tenant-Id": xero_tenant_id,
+                            "Content-Type": "application/json", "Accept": "application/json"}
+
+                    max_journal_number = account.xero_last_journal_number
+                    response = requests.get(xero_journal_url+"?offset="+str(max_journal_number), data={}, headers=header)
+                    if response.status_code != 200:
+                        continue
+                    xero_journals = response.json()['Journals']
+                    while xero_journals:
+                        data_to_be_insert = []
+                        for xero_journal in xero_journals:
+                            # E.g Converting "/Date(1607904000000+0000)/" to 2020-12-14
+                            max_journal_number = max(max_journal_number, int(xero_journal['JournalNumber']))
+                            date = datetime.utcfromtimestamp(int(xero_journal['JournalDate'][6:16])).strftime("%Y-%m-%d")
+                            for xero_journal_line in xero_journal['JournalLines']:
+                                account_name = xero_journal_line['AccountName']
+                                account_id = xero_journal_line['AccountCode']
+                                amount = float(xero_journal_line['GrossAmount'])
+                                type = 'DE' if amount < 0 else 'CR'
+                                core_account = account
+                                data_to_be_insert.append(Transactions(account_name=account_name, account_id=account_id, 
+                                                        amount=amount, date=date, type=type, core_account=core_account))
+                        # try:
+                        Transactions.objects.bulk_create(data_to_be_insert, ignore_conflicts=True)
+                        Account.objects.filter(pk=account.id).update(xero_last_journal_number=max_journal_number)
+                        # except:
+                        #     pass
+                        # Fetching next set of data based on offset (journal_number)
+                        response = requests.get(xero_journal_url+"?offset="+str(max_journal_number), data={}, headers=header)
+                        if response.status_code != 200:
+                            xero_journals = []
+                            continue
+                        xero_journals = response.json()['Journals']
+        return Response("success")
+
+

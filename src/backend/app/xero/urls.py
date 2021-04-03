@@ -10,6 +10,7 @@ app_name = 'xero'
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('xero/auth/response', views.XeroAuthResponseView.as_view(), name="quickbooks_auth_response"),
-    path('xero/auth/request', views.XeroAuthRequestView.as_view(), name="quickbooks_auth_request")
+    path('xero/auth/response', views.XeroAuthResponseView.as_view(), name="xero_auth_response"),
+    path('xero/auth/request', views.XeroAuthRequestView.as_view(), name="xero_auth_request"),
+    path('xero/sync/data', views.XeroAuthSyncDataView.as_view(), name="xero_sync_data")
 ]
