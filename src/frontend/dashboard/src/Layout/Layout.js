@@ -29,6 +29,7 @@ import ServiceList from "../components/ApiAuthenticationPage/ServiceList";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import Dashboard from "../components/dashboard/Dashboard";
 import Report from "../components/charts/Reports";
+import ExcelReport from "../components/DownloadReports/ExcelReport";
 
 export default function Layout(props) {
   const classes = useStyles();
@@ -183,6 +184,7 @@ export default function Layout(props) {
                   )}
                 />
                 <Route path="/report" component={Report} />
+                <Route path="/excel" component={ExcelReport} />
                 <Redirect from="*" to="/table" />
               </Switch>
               {/* <ServiceList isXero={isXero} isQuickbooks={isQuickbooks} /> */}
