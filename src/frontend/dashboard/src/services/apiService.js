@@ -66,6 +66,12 @@ export default {
       url:
         "https://recko-t1.herokuapp.com/api/account/transactions?page=1&per_page=1000&order_by=type&order_direction=desc",
     }),
+  getExcelReport: () =>
+    instance({
+      method: "GET",
+      url: "https://recko-t1.herokuapp.com/api/account/transactions?download=1",
+      responseType: "blob",
+    }),
   getLineGraphData: () =>
     instance({
       method: "GET",
