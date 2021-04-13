@@ -21,16 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = 'y%1joa+_-jdn9ta62&m=1dhxve=6jy&nyn5&(2gdb7%t4qn8'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'y%1joa+_-jdn9ta62&m=1dhxve=6jy&nyn5&(2gdb7%t4qn8')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('SECRET_KEY', False)
-DEBUG = True
+DEBUG = os.environ.get('SECRET_KEY', True)
 
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', ['*'])
 
 
 # Application definition
@@ -94,27 +90,14 @@ WSGI_APPLICATION = 'app.wsgi.application'
 #     )
 # }
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://xomwgjyzukeigm:f819a810ae96857b8579da5065eb31f45d66f5748072b629e0b357d7f084a77c@ec2-18-214-208-89.compute-1.amazonaws.com:5432/d37d78rkodqr9h'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'NAME': os.environ.get('DB_NAME', 'recko'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'jayd'),
+    }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': '',
-#         'NAME': '',
-#         'USER': '',
-#         'PASSWORD': ''
-#         # 'HOST': '127.0.0.1',
-#         # 'NAME': 'recko',
-#         # 'USER': 'postgres',
-#         # 'PASSWORD': 'jayd'
-#         # 'HOST': os.environ.get('DB_HOST'),
-#         # 'NAME': os.environ.get('DB_NAME'),
-#         # 'USER': os.environ.get('DB_USER'),
-#         # 'PASSWORD': os.environ.get('DB_PASSWORD'),
-#     }
-# }
 
 
 # Password validation
@@ -172,8 +155,10 @@ SWAGGER_SETTINGS = {
 
 APPEND_SLASH = False
 
-APPLICATION_URL = 'https://recko-t1.herokuapp.com'
+APPLICATION_URL = os.environ.get('APPLICATION_URL', 'http://127.0.0.1:8000')
 
 CORS_ALLOW_ALL_ORIGINS = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+FRONTEND_SERVICE_URL = 'https://recko-t1.netlify.app/services'

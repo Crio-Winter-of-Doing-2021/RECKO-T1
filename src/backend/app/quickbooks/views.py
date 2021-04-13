@@ -84,7 +84,9 @@ class QuickbooksAuthResponseView(views.APIView):
             Account.objects.filter(pk=state).update(error_desc=error, error_at=error_at)
 
         # Redirect to frontend page after successfull generation of access token
-        return Response(auth_client.access_token)
+        from django.shortcuts import redirect
+        return redirect(settings.FRONTEND_SERVICE_URL)
+        # return Response(auth_client.access_token)
 
 class QuickbooksAuthRequestView(views.APIView):
     """Custom viewset for quickbooks auth response"""

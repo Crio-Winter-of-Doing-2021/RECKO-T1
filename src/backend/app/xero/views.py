@@ -69,8 +69,9 @@ class XeroAuthResponseView(views.APIView):
 
         Account.objects.filter(pk=state).update(access_token=response['access_token'], expires_in=response['expires_in'], 
                                                 refresh_token=response['refresh_token'], is_authenticated=True)        
-
-        return Response(response['access_token'])
+        from django.shortcuts import redirect
+        return redirect(settings.FRONTEND_SERVICE_URL)
+        # return Response(response['access_token'])
 
 
 class XeroAuthRequestView(views.APIView):

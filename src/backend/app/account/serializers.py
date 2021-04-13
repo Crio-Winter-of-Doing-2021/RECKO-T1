@@ -31,3 +31,14 @@ class TransactionsSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['id', 'account_name', 'account_id', 'amount', 'date', 'type', 'integration_id', 'integration_name']
+
+class ChartSerializer(serializers.Serializer):
+    """Serializer for the transactions charts"""
+
+    date = serializers.DateField(required=False)
+    total_amount = serializers.FloatField(required=False)
+    total_deposits = serializers.FloatField(required=False)
+    account_name = serializers.CharField(required=False)
+    integration_name = serializers.CharField(required=False)
+    credit = serializers.FloatField(required=False)
+    debit = serializers.FloatField(required=False)
